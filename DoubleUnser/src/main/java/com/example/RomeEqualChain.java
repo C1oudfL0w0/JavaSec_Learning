@@ -11,7 +11,7 @@ public class RomeEqualChain {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("DSA");
         kpg.initialize(1024);
         KeyPair kp = kpg.generateKeyPair();
-        SignedObject signedObject=new SignedObject(CC6EXP.getPayload(), kp.getPrivate(), Signature.getInstance("DSA"));
+        SignedObject signedObject=new SignedObject(Gadget_CC6.getPayload(), kp.getPrivate(), Signature.getInstance("DSA"));
 
         ToStringBean toStringBean = new ToStringBean(SignedObject.class, signedObject);
 

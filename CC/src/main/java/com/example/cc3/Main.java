@@ -52,7 +52,7 @@ public class Main {
         // 生成序列化字符串
         String barr=Utils.Serialize(handler);
         System.out.println(barr);
-//        Utils.UnSerialize(barr);
+        Utils.UnSerialize(barr);
     }
 
     public static void setFieldValue(Object obj, String fieldName, Object value) throws Exception {

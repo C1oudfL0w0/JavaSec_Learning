@@ -1,0 +1,9 @@
+2025-09-24 15:27:01.456794+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]jdbc:h2:mem:testdb"; SQL statement:
+jdbc:h2:mem:testdb [42000-224]
+2025-09-24 15:27:01.458543+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]TRACE_LEVEL_SYSTEM_OUT=3"; expected "TRUNCATE"; SQL statement:
+TRACE_LEVEL_SYSTEM_OUT=3 [42001-224]
+2025-09-24 15:27:01.459157+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]INIT=RUNSCRIPT FROM 'http://127.0.0.1:8000/init.sql'"; expected "INSERT"; SQL statement:
+INIT=RUNSCRIPT FROM 'http://127.0.0.1:8000/init.sql' [42001-224]

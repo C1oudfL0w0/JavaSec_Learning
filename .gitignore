@@ -1,1 +1,7 @@
 /ysoserial/
+*.jar
+.*
+/jdwp-shellifier/
+evil.class
+/JNDI-Exploit-Bypass-Demo/
+/JavaDeserH2HC/
